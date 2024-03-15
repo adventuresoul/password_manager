@@ -1,5 +1,7 @@
-# password_manager
-An academic course project
-Object Oriented Programming
+# Password Manager
+A command line application with features to generate and recover passwords along with the capability to export them to an spreadsheet. 
 
-The National Institute of Engineering , Mysore
+### Concepts and Tech
+ - OOP Techniques
+ - C++
+
