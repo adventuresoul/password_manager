@@ -209,7 +209,7 @@ class Error_handler : public Server{
         }
 };
 
-class Interface : public Recovery, public Error_handler{
+class UserInterface : public Recovery, public Error_handler{
     public:
         void run_application(){
             cout << "Welcome to password manager: " << endl;
@@ -287,7 +287,7 @@ class Interface : public Recovery, public Error_handler{
 int main()
 {
     srand(time(nullptr));
-    Interface app;
+    UserInterface app;
     app.run_application();
     return 0;
 }
