@@ -11,7 +11,7 @@
 using namespace std;
 
 
-class Server{
+class BaseServer{
     protected:
         bool authenticator(const string& username) {
             ifstream file("users.txt");
@@ -42,7 +42,7 @@ class Server{
         }   
 };
 
-class Generator : public Server{
+class Generator : public BaseServer{
     private:
         vector <string> lower_case = {
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m","n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
@@ -164,7 +164,7 @@ class Recovery : public Generator{
         }
 };
 
-class Error_handler : public Server{
+class Error_handler : public BaseServer{
     protected:
         bool error_handling_authenticator(int limit){
             while(limit > 0){
@@ -209,7 +209,7 @@ class Error_handler : public Server{
         }
 };
 
-class UserInterface : public Recovery, public Error_handler{
+class Client : public Recovery, public Error_handler{
     public:
         void run_application(){
             cout << "Welcome to password manager: " << endl;
@@ -287,7 +287,7 @@ class UserInterface : public Recovery, public Error_handler{
 int main()
 {
     srand(time(nullptr));
-    UserInterface app;
+    Client app;
     app.run_application();
     return 0;
 }
