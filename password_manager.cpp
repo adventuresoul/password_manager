@@ -8,11 +8,13 @@
 #include<algorithm>
 #include<sstream>
 #include<time.h>
+
 using namespace std;
 
-
+// Base class for autentication and registration
 class BaseServer{
     protected:
+        // Authenticates a user based on the username in the "users.txt" file
         bool authenticator(const string& username) {
             ifstream file("users.txt");
             if (!file.is_open()) {
@@ -28,6 +30,7 @@ class BaseServer{
             throw runtime_error("User not found");
         }
 
+        // Registers a new user by adding their username to the "users.txt" file
         bool new_user_registration() {
             ofstream file("users.txt", ios::app);
             if (!file.is_open()) {
@@ -42,8 +45,10 @@ class BaseServer{
         }   
 };
 
+// Class for password generation and related functions
 class Generator : public BaseServer{
     private:
+        // Vectors to store characters for password generation
         vector <string> lower_case = {
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m","n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
         };
@@ -56,6 +61,8 @@ class Generator : public BaseServer{
         vector <string> special_charecters = {
              "!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "~", "=", "/", "|"
         };
+
+        // Functions to get random characters from each category
         string get_lowercase(){
             return lower_case[rand() % lower_case.size()];
         }
@@ -69,6 +76,7 @@ class Generator : public BaseServer{
             return special_charecters[rand() % special_charecters.size()];
         }
     public:
+        // Generates a random password and offers to save it to a file
         void password_generator(){
             string password;
             for (int i = 0; i < 12; i++){
@@ -118,8 +126,10 @@ class Generator : public BaseServer{
         }
 };  
 
+// Class for password recovery
 class Recovery : public Generator{
     public:
+        // Recovers a password based on the website name from the "passwords.csv" file
         void recover_password(){
             string website;
             cout << "Enter the website name: "<< endl;
@@ -164,8 +174,10 @@ class Recovery : public Generator{
         }
 };
 
+// Class for error handling and retrying failed operations
 class Error_handler : public BaseServer{
     protected:
+        // Handles authentication errors by retrying a limited number of times
         bool error_handling_authenticator(int limit){
             while(limit > 0){
                 try{
@@ -188,6 +200,8 @@ class Error_handler : public BaseServer{
             }
 
         }
+
+        // Handles new user registration errors by retrying a limited number of times
         bool error_handling_new_user(int limit){
             while(limit > 0){
                 try{
@@ -209,8 +223,10 @@ class Error_handler : public BaseServer{
         }
 };
 
+// Main class for the password manager application
 class Client : public Recovery, public Error_handler{
     public:
+        // Runs the main application loop
         void run_application(){
             cout << "Welcome to password manager: " << endl;
             cout << "-----------------------------" << endl;
